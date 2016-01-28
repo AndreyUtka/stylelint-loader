@@ -68,11 +68,11 @@ function linter(content, options, context, callback) {
                             }
                         }
                     });
-                    console.log(chalk.blue('\n Come on, fix you sass nigga (Last check: ' + new Date() + ')'));
                     if (options.displayOutput && result.warnings.length > 0) {
                         console.log('');
                     }
                 });
+                console.log(chalk.blue('\n Come on, fix you sass nigga (Last check: ' + new Date() + ')'));
                 callback(null, content);
             });
     } else if (callback) {

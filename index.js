@@ -46,31 +46,35 @@ function linter(content, options, context, callback) {
 
     if (processFile) {
         stylelint.lint(lintOptions)
-            .then(result => { return result.results[0]; })
-            .then(result => {
-                if (options.displayOutput && result.warnings.length > 0) {
-                    console.log(chalk.blue.underline.bold(filePath));
-                }
-                result.warnings.forEach(warning => {
-                    var position = `${warning.line}:${warning.column}`;
-                    if (warning.severity === 'warning') {
-                        if (options.displayOutput) {
-                            console.log(chalk.yellow(`${position} ${warning.text}`));
+            .then(data => {
+                data.results.forEach(result => {
+                    if (options.displayOutput && result.warnings.length > 0) {
+                        console.log(chalk.blue.underline.bold(result.source));
+                    }
+                    result.warnings.forEach(warning => {
+                        var position = `${warning.line}:${warning.column}`;
+                        if (warning.severity === 'warning') {
+                            if (options.displayOutput) {
+                                console.log(chalk.yellow(`${position} ${warning.text}`));
+                            }
+                            if (options.webpackWarnings) {
+                                context.emitWarning(`${position} ${warning.text}`);
+                            }
+                        } else if (warning.severity === 'error') {
+                            if (options.displayOutput) {
+                                console.log(chalk.red(`${position} ${warning.text}`));
+                            }
+                            if (options.webpackErrors) {
+                                context.emitError(`${position} ${warning.text}`);
+                            }
                         }
-                        context.emitWarning(`${position} ${warning.text}`);
-                    } else if (warning.severity === 'error') {
-                        if (options.displayOutput) {
-                            console.log(chalk.red(`${position} ${warning.text}`));
-                        }
-                        context.emitError(`${position} ${warning.text}`);
+                    });
+                    console.log(chalk.blue('\n Come on, fix you sass nigga (Last check: ' + new Date() + ')'));
+                    if (options.displayOutput && result.warnings.length > 0) {
+                        console.log('');
                     }
                 });
-                if (options.displayOutput && result.warnings.length > 0) {
-                    console.log('');
-                }
                 callback(null, content);
-            }).catch(error => {
-                callback(error);
             });
     } else if (callback) {
         callback(null, content);
@@ -82,7 +86,7 @@ function linter(content, options, context, callback) {
  *
  * @param {string|buffer} content = the content to be linted
  */
-module.exports = function(content) {
+module.exports = function (content) {
     this.cacheable && this.cacheable();
     var callback = this.async();
 

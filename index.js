@@ -39,7 +39,6 @@ function linter(content, options, context, callback) {
     }
 
     var lintOptions = assign({}, options, {
-        code: fs.readFileSync(context.resourcePath, { encoding: 'utf-8' }),
         syntax: path.extname(filePath).replace('.', ''),
         formatter: 'json'
     });

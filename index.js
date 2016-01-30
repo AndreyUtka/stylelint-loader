@@ -48,7 +48,6 @@ function linter(content, options, context, callback) {
 }
 
 function lintFile(processFile, filePath, content, options, context, callback) {
-    console.log(options)
     var lintOptions = assign({}, options, {
         code: fs.readFileSync(context.resourcePath, { encoding: 'utf-8' }),
         syntax: path.extname(filePath).replace('.', ''),
@@ -57,7 +56,6 @@ function lintFile(processFile, filePath, content, options, context, callback) {
     if (processFile) {
         stylelint.lint(lintOptions)
             .then(data => {
-                console.log(data.results)
                 return data.results[0];
             })
             .then(result => processResult(result, content, options, context, callback, filePath))

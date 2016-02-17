@@ -24,7 +24,8 @@ var lintedFiles = [];
  */
 function linter(content, options, context, callback) {
     // Figure out if we need to process this file
-    var processFile = true;
+    var processFile = true,
+        importTree = false;
     if (!options.ignoreCache) {
         var fileIndex = lintedFiles.findIndex((t) => { return t === context.resourcePath; });
         if (fileIndex === -1) {
@@ -40,9 +41,18 @@ function linter(content, options, context, callback) {
         filePath = filePath.replace(__dirname, '.');
     }
 
-    if (options.files) {
+    var code = fs.readFileSync(context.resourcePath, { encoding: 'utf-8' });
+
+    if (code.indexOf("@import") > -1) {
+        importTree = true;
+    }
+
+    console.log(importTree)
+
+    if (options.files && importTree) {
         lintFiles(processFile, filePath, content, options, context, callback);
     } else {
+        delete options.files;
         lintFile(processFile, filePath, content, options, context, callback);
     }
 }

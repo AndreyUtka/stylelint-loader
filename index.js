@@ -47,8 +47,6 @@ function linter(content, options, context, callback) {
         importTree = true;
     }
 
-    console.log(importTree)
-
     if (options.files && importTree) {
         lintFiles(processFile, filePath, content, options, context, callback);
     } else {

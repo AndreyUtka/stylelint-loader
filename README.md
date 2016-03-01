@@ -7,6 +7,19 @@ any syntax that PostCSS can parse, including SASS and SCSS.
 Stylelint-loader is a [Webpack] wrapper for handling stylelint verification while
 using webpack.
 
+> This fork provides an additional option to lint by original file options in stylelint
+>
+> example: 
+> ```
+>    stylelint: {
+>        configFile: './stylelint.config.js',
+>        ignoreCache: true,
+>        files: 'src/**/**/**.scss',
+>        webpackWarnings: false,
+>        webpackErrors: false
+>    },
+> ```
+
 ## Installation
 
 ```

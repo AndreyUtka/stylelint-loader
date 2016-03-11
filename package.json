@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/adrianhall/stylelint-loader",
   "peerDependencies": {
-    "stylelint": "^4.3.5"
+    "stylelint": "^5.0.0"
   },
   "dependencies": {
     "chalk": "^1.1.1",
@@ -44,7 +44,7 @@
     "node-sass": "^3.4.2",
     "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",
-    "webpack": "^1.12.12",
+    "webpack": "^1.12.14",
     "webpack-sources": "^0.1.0"
   }
 }
